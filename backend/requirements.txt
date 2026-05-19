@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+numpy
+jinja2
+pyodbc
+python-dotenv

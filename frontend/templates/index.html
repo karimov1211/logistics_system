@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistika & Yetkazib Berish Tizimi</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="glow-bg-1"></div>
+    <div class="glow-bg-2"></div>
+    
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo-area">
+                <span class="logo-icon">🚚</span>
+                <h1>LOGIX <span>NUMPY</span></h1>
+            </div>
+            <p class="subtitle">Logistika va yetkazib berish tizimi: NumPy yordamida eng qisqa marshrutlarni hisoblash va natijalarni Git orqali versiyalash</p>
+        </header>
+
+        <div class="main-layout">
+            <!-- Left panel: Controls and configuration -->
+            <div class="sidebar-panel">
+                <section class="glass-card router-controls">
+                    <div class="card-header">
+                        <span class="icon">📍</span>
+                        <h2>Marshrut Hisoblash</h2>
+                    </div>
+                    <form id="routeForm">
+                        <div class="form-group">
+                            <label for="startNode">Chiqish punkti:</label>
+                            <select id="startNode" required>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="endNode">Yetkazib berish manzili:</label>
+                            <select id="endNode" required>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary" id="calcBtn">
+                            <span>Yo'nalishni Aniqlash</span>
+                            <span class="btn-arrow">→</span>
+                        </button>
+                    </form>
+                </section>
+
+                <section class="glass-card results-card" id="resultsCard">
+                    <div class="card-header">
+                        <span class="icon">📊</span>
+                        <h2>Hisob-Kitob Natijalari</h2>
+                    </div>
+                    <div class="results-placeholder" id="resultsPlaceholder">
+                        Yo'nalishni hisoblash uchun yuqoridagi tugmani bosing.
+                    </div>
+                    <div class="results-content" id="resultsContent" style="display: none;">
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Masofa</span>
+                                <span class="stat-value" id="resDistance">0 km</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Vaqt (O'rtacha)</span>
+                                <span class="stat-value" id="resDuration">0 soat</span>
+                            </div>
+                        </div>
+                        <div class="path-sequence">
+                            <span class="path-label">Marshrut ketma-ketligi:</span>
+                            <div class="path-flow" id="resPathFlow">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                        
+                        <div class="versioning-zone">
+                            <button type="button" class="btn-accent" id="btnGitCommit">
+                                <span class="git-icon">🐙</span>
+                                <span>Git-da versiyalash</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="glass-card network-editor">
+                    <div class="card-header">
+                        <span class="icon">⚙️</span>
+                        <h2>Tarmoqni Tahrirlash</h2>
+                    </div>
+                    <p class="section-desc">Yangi bog'lanish (yo'l) qo'shing yoki mavjud masofani o'zgartiring:</p>
+                    <form id="linkForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="linkSource">A Shaxar:</label>
+                                <select id="linkSource" required></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="linkTarget">B Shaxar:</label>
+                                <select id="linkTarget" required></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="linkWeight">Masofa (km):</label>
+                            <input type="number" id="linkWeight" min="1" max="2000" required placeholder="Masofa masalan, 150">
+                        </div>
+                        <button type="submit" class="btn-secondary">Bog'lanishni saqlash</button>
+                    </form>
+                </section>
+            </div>
+
+            <!-- Right panel: Interactive map & Git Version log -->
+            <div class="content-panel">
+                <section class="glass-card map-card">
+                    <div class="card-header">
+                        <span class="icon">🗺️</span>
+                        <h2>Uzbekiston Logistika Xaritasi</h2>
+                        <span class="badge" id="networkStatus">10 ta tugun faol</span>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="mapCanvas" width="950" height="650"></canvas>
+                        <div class="map-legend">
+                            <span class="legend-item"><span class="dot hub"></span>Markaz / Shaxar</span>
+                            <span class="legend-item"><span class="line path"></span>Eng qisqa yo'l</span>
+                            <span class="legend-item"><span class="line standard"></span>Mavjud yo'llar</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="glass-card git-log-card">
+                    <div class="card-header">
+                        <span class="icon">📁</span>
+                        <h2>GitHub Versiyalar Tarixi (Git Log)</h2>
+                        <span class="git-branch">🌿 main</span>
+                    </div>
+                    <div class="git-log-container">
+                        <div class="git-log-list" id="gitCommitsList">
+                            <!-- Populated dynamically -->
+                            <div class="git-empty">Versiyalar tarixi yuklanmoqda...</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
